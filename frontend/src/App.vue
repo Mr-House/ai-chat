@@ -191,7 +191,7 @@ const toggleConversationList = () => {
     </div>
 
     <!-- 聊天抽屉 -->
-    <a-drawer width="50%" placement="right" :visible="visible" @cancel="toggleDrawer" unmountOnClose>
+    <a-drawer width="50%" placement="right" :visible="visible" @cancel="toggleDrawer" :footer="false" unmountOnClose>
       <template #title>
         <div class="drawer-header">
           <div class="drawer-title">
@@ -230,45 +230,44 @@ const toggleConversationList = () => {
           <icon-robot size="64" />
           <p>开始一个新的对话吧</p>
         </div>
-        <div v-else v-for="(message, index) in messages" :key="index"
-          :class="['message-wrapper', message.type]">
+        <div v-else v-for="(message, index) in messages" :key="index" :class="['message-wrapper', message.type]">
           <div class="message-avatar">
-          <template v-if=" message.type === 'user' ">
-            <a-avatar :style=" { backgroundColor: '#165DFF' } ">
-              我
-            </a-avatar>
-          </template>
-          <template v-else>
-            <a-avatar :style=" { backgroundColor: '#722ED1' } ">
-              <template #icon><icon-robot /></template>
-            </a-avatar>
-          </template>
-        </div>
-        <div class="message-content">
-          <div class="message-bubble">
-            <!-- 用户消息直接显示文本 -->
-            <template v-if=" message.type === 'user' ">
-              {{ message.content }}
+            <template v-if="message.type === 'user'">
+              <a-avatar :style="{ backgroundColor: '#165DFF' }">
+                我
+              </a-avatar>
             </template>
-            <!-- AI消息使用Markdown渲染 -->
-            <div v-else class="markdown-content" v-html=" renderMarkdown(message.content) "></div>
+            <template v-else>
+              <a-avatar :style="{ backgroundColor: '#722ED1' }">
+                <template #icon><icon-robot /></template>
+              </a-avatar>
+            </template>
           </div>
-          <div class="message-time">{{ new Date(message.timestamp).toLocaleTimeString() }}</div>
+          <div class="message-content">
+            <div class="message-bubble">
+              <!-- 用户消息直接显示文本 -->
+              <template v-if="message.type === 'user'">
+                {{ message.content }}
+              </template>
+              <!-- AI消息使用Markdown渲染 -->
+              <div v-else class="markdown-content" v-html="renderMarkdown(message.content)"></div>
+            </div>
+            <div class="message-time">{{ new Date(message.timestamp).toLocaleTimeString() }}</div>
+          </div>
         </div>
       </div>
-  </div>
 
-  <!-- 输入框 -->
-  <div class="input-container">
-    <div class="input-wrapper">
-      <a-textarea v-model=" inputMessage " placeholder="请输入消息..." :auto-size=" { minRows: 1, maxRows: 4 } "
-        @keypress.enter.prevent=" sendMessage " />
-      <a-button type="primary" shape="circle" class="send-button" @click=" sendMessage ">
-        <template #icon><icon-send /></template>
-      </a-button>
-    </div>
-  </div>
-  </a-drawer>
+      <!-- 输入框 -->
+      <div class="input-container">
+        <div class="input-wrapper">
+          <a-textarea v-model="inputMessage" placeholder="请输入消息..." :auto-size="{ minRows: 1, maxRows: 4 }"
+            @keypress.enter.prevent="sendMessage" />
+          <a-button type="primary" shape="circle" class="send-button" @click="sendMessage">
+            <template #icon><icon-send /></template>
+          </a-button>
+        </div>
+      </div>
+    </a-drawer>
   </div>
 </template>
 
