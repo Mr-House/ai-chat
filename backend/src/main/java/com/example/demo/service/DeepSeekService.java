@@ -23,7 +23,7 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 @Service
 public class DeepSeekService {
 
-  private final String API_KEY = "sk-746afc4716a44fc7bb8cf469266cff4f";
+  private final String API_KEY = "";
   private final String API_ENDPOINT = "https://api.deepseek.com/v1/chat/completions";
   private final RestTemplate restTemplate = new RestTemplate();
 
